@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  author: Jakub Sokołowski <jakub@status.im>
+  description: Deploy and setup a Nimbus Eth2 beacon node on Windows
+  company: Status.im
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+    - name: Windows
+      versions:
+        - all
