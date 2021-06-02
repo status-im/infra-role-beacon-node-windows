@@ -9,3 +9,7 @@ galaxy_info:
     - name: Windows
       versions:
         - all
+  dependencies:
+    - name: infra-role-winsw
+      src: git+git@github.com:status-im/infra-role-winsw.git
+      scm: git
