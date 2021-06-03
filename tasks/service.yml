@@ -1,0 +1,32 @@
+---
+- name: Create windows service
+  include_role: name=infra-role-winsw
+  vars:
+    winsw_service_id: 'beacon-node'
+    winsw_service_name: TODO
+    winsw_service_description: 'Service managed by WinSW'
+    winsw_service_user: TODO
+    winsw_service_exe_url: TODO
+    winsw_service_arguments: >
+      --network={{ beacon_node_network }}
+      --data-dir='/data/{{ beacon_node_data_folder }}'
+      {% for url in beacon_node_web3_urls | mandatory %}
+      --web3-url={{ url | mandatory }}
+      {% endfor %}
+      --nat=extip:{{ beacon_node_public_address }}
+      --log-level={{ beacon_node_log_level }}
+      --tcp-port={{ beacon_node_listening_port }}
+      --udp-port={{ beacon_node_discovery_port }}
+      --max-peers={{ beacon_node_max_peers }}
+      --netkey-file=/{{ beacon_node_netkey_cont_path }}
+      --slashing-db-kind={{ beacon_node_slashing_db_kind }}
+      --insecure-netkey-password=true
+      --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }}
+      --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }}
+      --rpc
+      --rpc-address=0.0.0.0
+      --rpc-port={{ beacon_node_rpc_port }}
+      --metrics
+      --metrics-address=0.0.0.0
+      --metrics-port={{ beacon_node_metrics_port }}
+

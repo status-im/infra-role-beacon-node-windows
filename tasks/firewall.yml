@@ -1,0 +1,18 @@
+---
+- name: 'Enable ports for: {{ beacon_node_service_name }}'
+  win_firewall_rule:
+    name: '{{ beacon_node_service_name }}-{{ rule.protocol }}'
+    description: 'Nimbus Eth2 Beacon Node ports'
+    action: 'allow'
+    direction: 'in'
+    state: 'present'
+    enabled: true
+    protocol: '{{ rule.protocol }}'
+    localport: '{{ rule.port }}'
+  with_items:
+    - { protocol: 'tcp', port: '{{ beacon_node_listening_port }}' }
+    - { protocol: 'udp', port: '{{ beacon_node_discovery_port }}' }
+  loop_control:
+    loop_var: rule
+  notify:
+    - Save iptables rules
