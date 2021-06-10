@@ -1,0 +1,30 @@
+---
+- name: Create service user
+  win_user:
+    name: '{{ beacon_node_service_user_name }}'
+    profile: '{{ beacon_node_service_home }}'
+    home_directory: '{{ beacon_node_service_home }}'
+    # We set garbage since we use SSH keys anyway
+    password: '{{ beacon_node_service_user_pass }}'
+
+- name: Create user profile
+  win_user_profile:
+    username: '{{ beacon_node_service_user_name }}'
+
+- name: Create folder for SSH authorized keys
+  win_file:
+    path: '{{ beacon_node_service_home }}/.ssh'
+    state: 'directory'
+
+- name: Copy SSH authorized keys from admin
+  win_copy:
+    src: 'C:/Users/admin/.ssh/authorized_keys'
+    dest: '{{ beacon_node_service_home }}/.ssh/authorized_keys'
+    remote_src: true
+  become_user: '{{ beacon_node_service_user_name }}'
+
+- name: Fix permissions on the SSH folder
+  win_owner:
+    path: '{{ beacon_node_service_home }}/.ssh'
+    user: '{{ beacon_node_service_user_name }}'
+    recurse: true
