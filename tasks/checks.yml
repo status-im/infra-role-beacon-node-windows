@@ -10,4 +10,5 @@
 - name: Verify network name
   assert:
     that: '{{ beacon_node_network in beacon_node_valid_network_names }}'
-
+    fail_msg: '"{{ beacon_node_network }}" is not a valid network name!'
+    quiet: true
