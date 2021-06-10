@@ -3,6 +3,7 @@
   win_firewall_rule:
     name: '{{ beacon_node_service_name }}-{{ rule.protocol }}'
     description: 'Nimbus Eth2 Beacon Node ports'
+    group: 'Nimbus Beacon Node'
     action: 'allow'
     direction: 'in'
     state: 'present'
