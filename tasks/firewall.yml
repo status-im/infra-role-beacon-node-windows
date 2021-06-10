@@ -14,5 +14,3 @@
     - { protocol: 'udp', port: '{{ beacon_node_discovery_port }}' }
   loop_control:
     loop_var: rule
-  notify:
-    - Save iptables rules
