@@ -33,14 +33,7 @@ function buildBinaries() {
 #-------------------------------------------------------------------------------
 
 BRANCH="{{ beacon_node_repo_branch }}"
-BUILD_USER="{{ beacon_node_service_user_name }}" 
 INSTALL_PATH="{{ beacon_node_service_bin_path }}"
-
-if [[ "${USER}" != "${BUILD_USER}" ]]; then
-    echo "Incorrect user: ${USER}" >&2
-    echo "Expected: ${BUILD_USER}" >&2
-    exit 1
-fi
 
 # Build the Beacon node binaries
 pushd repo >/dev/null
