@@ -1,0 +1,61 @@
+---
+- name: Create service folders
+  win_file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ beacon_node_service_path }}'
+    - '{{ beacon_node_service_bin_path }}'
+
+- name: Clone Git repository
+  win_shell: |
+    git --no-pager clone \
+      {{ beacon_node_repo_url }} \
+      {{ beacon_node_repo_path }} \
+      --branch {{ beacon_node_repo_branch }}
+  args:
+    creates: '{{ beacon_node_repo_path }}'
+
+- name: Fix repo permissions
+  win_owner:
+    path: '{{ beacon_node_repo_path }}'
+    user: '{{ beacon_node_service_user_name }}'
+
+# WARNING: There's a known issue with broken GCC mirrors:
+# TODO: Install using some other method.
+# https://github.com/ScoopInstaller/Main/issues/1752
+- name: Install GCC to compile Nim
+  win_shell: 'scoop install --global gcc'
+
+- name: Add GCC to the system wide PATH
+  win_path:
+    name: 'PATH'
+    elements: 'C:/ProgramData/scoop/apps/gcc/current/bin'
+    scope: 'machine'
+    state: 'present'
+  register: machine_path
+
+- name: Restart host for PATH change to work
+  win_reboot:
+    reboot_timeout: 160
+  when: machine_path.changed
+
+- name: Create build script
+  win_template:
+    src: 'build.sh.j2'
+    dest: '{{ beacon_node_build_script }}'
+    mode: 0750
+
+- name: Schedule node builds
+  win_scheduled_task:
+    description: 'Daily rebuild of Nimbus beacon node binaries'
+    name: '{{ beacon_node_service_name }}-build'
+    #path: '{{ beacon_node_service_path }}'
+    actions:
+      - path: '{{ beacon_node_build_script }}'
+    triggers:
+      - type: 'daily'
+        start_boundary: '2021-01-01T01:00:00'
+    username: '{{ beacon_node_service_user_name }}'
+    state: 'present'
+    enabled: true
