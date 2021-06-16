@@ -25,8 +25,8 @@
 # https://github.com/ScoopInstaller/Main/issues/1752
 - name: Disgusting fix for GCC availability
   win_shell: |
-    sed ~/scoop/buckets/main/bucket/gcc.json \
-      's#http://repo.msys2.org/#http://mirrors.huaweicloud.com/msys2/#'
+    sed -i 's#http://repo.msys2.org/#http://mirrors.huaweicloud.com/msys2/#' \
+      ~/scoop/buckets/main/bucket/gcc.json \
 
 - name: Install GCC to compile Nim
   win_shell: 'scoop install --global gcc'
