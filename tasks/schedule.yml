@@ -11,7 +11,7 @@
     triggers:
       - type: 'daily'
         start_boundary: '2021-01-01T01:00:00'
-      # Also start it right away
+      # Start it right away so we have the binary to run.
       - type: registration
     state: 'present'
     enabled: true
@@ -19,16 +19,13 @@
     disallow_start_if_on_batteries: false
     stop_if_going_on_batteries: false
 
-- name: Wait for the node build to finish
+- name: Wait for the node build to finish (SLOW)
   win_scheduled_task_stat:
     name: '{{ beacon_node_service_name }}-build'
-    register: task_stat
-    until: |
-      (
-        task_stat.state is defined and
-        task_stat.state.status != "TASK_STATE_RUNNING"
-      ) or (
-        task_stat.task_exists == False
-      )
-    retries: 7
-    delay: 5
+  register: task_stat
+  until: |
+    (task_stat.state is defined and
+     task_stat.state.status != "task_state_running"
+    ) or (task_stat.task_exists == false)
+  retries: 30
+  delay: 30
