@@ -1,0 +1,35 @@
+---
+- name: Schedule and start node builds
+  win_scheduled_task:
+    description: 'Daily rebuild of Nimbus beacon node binaries'
+    name: '{{ beacon_node_service_name }}-build'
+    username: '{{ beacon_node_service_user_name }}'
+    password: '{{ beacon_node_service_user_pass }}'
+    logon_type: 's4u'
+    actions:
+      - path: 'C:/ProgramData/scoop/apps/git/current/bin/bash.exe'
+        arguments: '{{ beacon_node_build_script }}'
+    triggers:
+      - type: 'daily'
+        start_boundary: '2021-01-01T01:00:00'
+      # Also start it right away
+      - type: registration
+    state: 'present'
+    enabled: true
+    multiple_instances: 2 # Wait for running task
+    disallow_start_if_on_batteries: false
+    stop_if_going_on_batteries: false
+
+- name: Wait for the node build to finish
+  win_scheduled_task_stat:
+    name: '{{ beacon_node_service_name }}-build'
+    register: task_stat
+    until: |
+      (
+        task_stat.state is defined and
+        task_stat.state.status != "TASK_STATE_RUNNING"
+      ) or (
+        task_stat.task_exists == False
+      )
+    retries: 7
+    delay: 5

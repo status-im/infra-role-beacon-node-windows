@@ -45,17 +45,3 @@
     src: 'build.sh.j2'
     dest: '{{ beacon_node_build_script }}'
     mode: 0750
-
-- name: Schedule node builds
-  win_scheduled_task:
-    description: 'Daily rebuild of Nimbus beacon node binaries'
-    name: '{{ beacon_node_service_name }}-build'
-    #path: '{{ beacon_node_service_path }}'
-    actions:
-      - path: '{{ beacon_node_build_script }}'
-    triggers:
-      - type: 'daily'
-        start_boundary: '2021-01-01T01:00:00'
-    username: '{{ beacon_node_service_user_name }}'
-    state: 'present'
-    enabled: true
