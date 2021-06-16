@@ -3,12 +3,11 @@
   win_scheduled_task:
     description: 'Daily rebuild of Nimbus beacon node binaries'
     name: '{{ beacon_node_service_name }}-build'
-    username: '{{ beacon_node_service_user_name }}'
-    password: '{{ beacon_node_service_user_pass }}'
-    logon_type: 's4u'
+    username: SYSTEM
     actions:
       - path: 'C:/ProgramData/scoop/apps/git/current/bin/bash.exe'
-        arguments: '{{ beacon_node_build_script }}'
+        arguments: '-c "{{ beacon_node_build_script }} > ./build.log 2>&1'
+        working_directory: '{{ beacon_node_service_path }}'
     triggers:
       - type: 'daily'
         start_boundary: '2021-01-01T01:00:00'
