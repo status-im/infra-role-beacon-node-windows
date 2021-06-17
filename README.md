@@ -31,3 +31,15 @@ The containers are managed using [WinSW](https://github.com/winsw/winsw).
 ```
 TODO
 ```
+
+The logs for scheduled tasks running builds can be looked up using `Get-WinEvent`:
+```
+PS C:\Users\nimbus\beacon-node-prater-stable> Get-WinEvent -LogName Microsoft-Windows-TaskScheduler/Operational | Select -First 4 | ft -Property TimeCreated,Message
+
+TimeCreated           Message
+-----------           -------
+6/17/2021 11:09:46 AM Task Scheduler did not launch task "\beacon-node-prater-unstable-build"  because instance "{afe16e96-be8d-40b8-a398-b3be6513de88}"  of the same task is already running.
+6/17/2021 11:09:46 AM Task Scheduler launched "{72498e41-91ee-4318-95f4-54daca2acf2f}"  instance of task "\beacon-node-prater-unstable-build"  for user "System" .
+6/17/2021 11:09:46 AM Task Scheduler queued instance "{72498e41-91ee-4318-95f4-54daca2acf2f}"  of task "\beacon-node-prater-unstable-build".
+6/17/2021 11:06:55 AM Task Scheduler successfully finished "{747c0708-0908-4514-a4b4-c6e71d6132c0}" instance of the "\beacon-node-prater-stable-build" task for user "NT AUTHORITY\SYSTEM".
+```
