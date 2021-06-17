@@ -36,5 +36,5 @@
   until: |
     task_stat.state is defined and
     task_stat.state.status != "TASK_STATE_RUNNING"
-  retries: 50
-  delay: 30
+  retries: 60 # 1 hour total
+  delay: 60 # seconds
