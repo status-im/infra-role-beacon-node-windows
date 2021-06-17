@@ -6,7 +6,7 @@
     winsw_service_name: 'Nimbus Beacon Node'
     winsw_service_description: 'Nimbus Eth2 Beacon Node'
     winsw_service_user: 'nimbus'
-    winsw_service_exe_path: '{{ beacon_node_service_bin_path }}/nimbus_beacon_node.exe'
+    winsw_service_exe_path: '{{ beacon_node_service_exe }}'
     winsw_service_arguments: |
       --network={{ beacon_node_network }}
       --data-dir={{ beacon_node_data_path }}
