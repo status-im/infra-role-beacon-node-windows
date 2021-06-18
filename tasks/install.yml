@@ -6,6 +6,12 @@
   with_items:
     - '{{ beacon_node_service_path }}'
     - '{{ beacon_node_service_bin_path }}'
+    - '{{ beacon_node_data_path }}'
+
+- name: Fix service folder permissions
+  win_owner:
+    path: '{{ beacon_node_service_path }}'
+    user: '{{ beacon_node_service_user_name }}'
 
 - name: Clone Git repository
   win_shell: |
