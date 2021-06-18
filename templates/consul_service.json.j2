@@ -1,0 +1,44 @@
+{
+  "services": [
+    {
+      "id": "{{ beacon_node_service_name }}",
+      "name": "beacon-node",
+      "port": {{ beacon_node_listening_port }},
+      "address": "{{ beacon_node_public_address }}",
+      "weights": {
+        "passing": 1,
+        "warning": 3 
+      },
+      "enable_tag_override": true,
+      "tags": ["{{ env }}.{{ stage }}", "beacon", "nimbus"]
+    },
+    {
+      "id": "{{ beacon_node_service_name }}-metrics",
+      "name": "beacon-node-metrics",
+      "port": 9300,
+      "meta": {
+        "container": "beacon-node-prater-stable-large"
+      },
+      "address": "10.13.0.16",
+      "weights": {
+        "passing": 1,
+        "warning": 3 
+      },
+      "enable_tag_override": true,
+      "checks": [
+        {
+          "name": "beacon-node-metrics HTTP check",
+          "http": "http://localhost:9300/metrics",
+          "method": "GET",
+          "tls_skip_verify": false,
+          "header": {},
+          "interval": "30s",
+          "timeout": "2s",
+          "id": {{ beacon_node_service_name }}-metrics"
+        }
+      ],
+      "tags": ["{{ env }}.{{ stage }}", "beacon", "nimbus", "metrics"]
+    }
+  ]
+}
+

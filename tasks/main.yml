@@ -2,6 +2,7 @@
 - import_tasks: checks.yml
 - import_tasks: user.yml
 - import_tasks: install.yml
+- import_tasks: firewall.yml
 - import_tasks: schedule.yml
 - import_tasks: service.yml
-- import_tasks: firewall.yml
+- import_tasks: consul.yml
