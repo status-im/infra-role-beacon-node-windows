@@ -4,7 +4,6 @@
     name: '{{ beacon_node_service_user_name }}'
     profile: '{{ beacon_node_service_home }}'
     home_directory: '{{ beacon_node_service_home }}'
-    # We set garbage since we use SSH keys anyway
     password: '{{ beacon_node_service_user_pass }}'
 
 - name: Create user profile

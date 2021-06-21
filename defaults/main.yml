@@ -19,7 +19,7 @@ beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
 
 # Location for all node data
-beacon_node_data_path: '{{ beacon_node_service_path }}/data/shared_{{ beacon_node_network }}_0'
+beacon_node_data_path: '{{ beacon_node_service_path }}/data'
 
 # For validation
 beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "nocturne"]

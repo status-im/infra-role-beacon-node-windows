@@ -12,13 +12,13 @@
     winsw_service_exe_path: '{{ beacon_node_service_exe }}'
     winsw_service_arguments: |
       --network={{ beacon_node_network }}
-      --data-dir={{ beacon_node_data_path }}
+      --data-dir={{ beacon_node_data_path }}/shared_{{ beacon_node_network }}_0'
       {% for url in beacon_node_web3_urls | mandatory %}
       --web3-url={{ url | mandatory }}
       {% endfor %}
       --nat=extip:{{ beacon_node_public_address }}
       --log-level={{ beacon_node_log_level }}
-      --log-file={{ beacon_node_service_path }}/log
+      --log-file={{ beacon_node_service_path }}/log/nimbus.log
       --tcp-port={{ beacon_node_listening_port }}
       --udp-port={{ beacon_node_discovery_port }}
       --max-peers={{ beacon_node_max_peers }}
