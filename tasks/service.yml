@@ -11,6 +11,7 @@
     winsw_service_logon_pass: '{{ beacon_node_service_user_pass }}'
     winsw_service_exe_path: '{{ beacon_node_service_exe }}'
     winsw_service_arguments: |
+      --non-interactive
       --network={{ beacon_node_network }}
       --data-dir={{ beacon_node_data_path }}/shared_{{ beacon_node_network }}_0'
       {% for url in beacon_node_web3_urls | mandatory %}
