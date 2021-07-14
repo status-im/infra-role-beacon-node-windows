@@ -10,14 +10,14 @@
         address: '{{ beacon_node_public_address }}'
         tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus']
 
-      #- id: '{{ beacon_node_service_name }}-metrics'
-      #  name: '{{ beacon_node_consul_metrics_service_name }}'
-      #  port: '{{ beacon_node_metrics_port }}'
-      #  address: '127.0.0.1' # TODO: No WireGuard VPN on Windows
-      #  tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus', 'metrics']
-      #  meta:
-      #    container: '{{ beacon_node_service_name }}'
-      #  checks:
-      #    - name: '{{ beacon_node_consul_metrics_service_name }}-health'
-      #      type: 'http'
-      #      http: 'http://localhost:{{ beacon_node_metrics_port }}/metrics'
+      - id: '{{ beacon_node_service_name }}-metrics'
+        name: '{{ beacon_node_consul_metrics_service_name }}'
+        port: '{{ beacon_node_metrics_port }}'
+        address: '{{ ansible_facts.wireguard.vpn_ip }}'
+        tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus', 'metrics']
+        meta:
+          container: '{{ beacon_node_service_name }}'
+        checks:
+          - name: '{{ beacon_node_consul_metrics_service_name }}-health'
+            type: 'http'
+            http: 'http://localhost:{{ beacon_node_metrics_port }}/metrics'
