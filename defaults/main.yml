@@ -15,6 +15,7 @@ beacon_node_build_script: '{{ beacon_node_service_path }}/build.sh'
 # shared testnet name: mainnet, pyrmont, prater, etc.
 beacon_node_network: 'mainnet'
 beacon_node_log_level: 'INFO'
+beacon_node_data_folder: 'shared_{{ beacon_node_network }}_0'
 beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
 
@@ -23,6 +24,13 @@ beacon_node_data_path: '{{ beacon_node_service_path }}/data'
 
 # For validation
 beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "nocturne"]
+
+# Automatically distribute validators
+beacon_node_dist_validators_enabled: false
+beacon_node_dist_validators_name: '{{ beacon_node_network }}_deposits'
+beacon_node_dist_validators_data_path: '{{ beacon_node_data_path }}/{{ beacon_node_data_folder }}'
+#beacon_node_dist_validators_start: ~
+#beacon_node_dist_validators_end: ~
 
 # connectivity settings
 beacon_node_discovery_port: 9000
