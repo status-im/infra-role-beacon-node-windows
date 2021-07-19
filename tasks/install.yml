@@ -32,7 +32,7 @@
 - name: Disgusting fix for GCC availability
   win_shell: >
     sed -i 's#http://repo.msys2.org/#http://mirrors.huaweicloud.com/msys2/#' \
-      C:/Users/{{ ansible_become_user }}/scoop/buckets/main/bucket/gcc.json
+      C:\Users\{{ ansible_become_user }}\scoop\buckets\main\bucket\gcc.json
 
 - name: Install GCC to compile Nim
   win_shell: 'scoop install --global gcc'
@@ -40,7 +40,7 @@
 - name: Add GCC to the system wide PATH
   win_path:
     name: 'PATH'
-    elements: 'C:/ProgramData/scoop/apps/gcc/current/bin'
+    elements: 'C:\ProgramData\scoop\apps\gcc\current\bin'
     scope: 'machine'
     state: 'present'
   register: machine_path

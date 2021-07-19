@@ -9,8 +9,8 @@
         arguments: '-c "{{ beacon_node_build_script }} > ./build.log 2>&1'
         working_directory: '{{ beacon_node_service_path }}'
     triggers:
-      - type: 'daily'
-        start_boundary: '2021-01-01T01:00:00'
+      - type: '{{ beacon_node_build_frequency }}'
+        start_boundary: '{{ ansible_date_time.date }}T{{ beacon_node_build_start_time }}'
     state: 'present'
     enabled: true
     multiple_instances: 2 # Wait for running task
