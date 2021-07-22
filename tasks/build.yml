@@ -1,4 +1,10 @@
 ---
+- name: Create build script
+  win_template:
+    src: 'build.sh.j2'
+    dest: '{{ beacon_node_service_path }}\build.sh'
+    mode: 0750
+
 - name: Schedule and start node builds
   win_scheduled_task:
     description: 'Daily rebuild of Nimbus beacon node binaries'
@@ -6,7 +12,7 @@
     username: SYSTEM
     actions:
       - path: 'C:\ProgramData\scoop\apps\git\current\bin\bash.exe'
-        arguments: '-c "{{ beacon_node_build_script }} > .\build.log 2>&1"'
+        arguments: '-c "./build.sh > build.log 2>&1"'
         working_directory: '{{ beacon_node_service_path }}'
     triggers:
       - type: '{{ beacon_node_build_frequency }}'

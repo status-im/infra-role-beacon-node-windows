@@ -49,9 +49,3 @@
   win_reboot:
     reboot_timeout: 160
   when: machine_path.changed
-
-- name: Create build script
-  win_template:
-    src: 'build.sh.j2'
-    dest: '{{ beacon_node_build_script }}'
-    mode: 0750
