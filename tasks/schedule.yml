@@ -5,8 +5,8 @@
     name: '{{ beacon_node_service_name }}-build'
     username: SYSTEM
     actions:
-      - path: 'C:/ProgramData/scoop/apps/git/current/bin/bash.exe'
-        arguments: '-c "{{ beacon_node_build_script }} > ./build.log 2>&1'
+      - path: 'C:\ProgramData\scoop\apps\git\current\bin\bash.exe'
+        arguments: '-c "{{ beacon_node_build_script }} > .\build.log 2>&1"'
         working_directory: '{{ beacon_node_service_path }}'
     triggers:
       - type: '{{ beacon_node_build_frequency }}'
