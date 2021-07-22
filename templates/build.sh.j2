@@ -34,6 +34,7 @@ function buildBinaries() {
 
 BRANCH="{{ beacon_node_repo_branch }}"
 INSTALL_PATH="{{ beacon_node_service_bin_path }}"
+SERVICE_NAME="{{ beacon_node_service_name }}"
 
 # Build the Beacon node binaries
 pushd repo >/dev/null
@@ -49,7 +50,7 @@ fi
 COMMIT=$(git rev-parse --short=8 HEAD)
 
 if binaryExists && [[ "$1" != "--force" ]]; then
-    echo " >>> Binary already built"
+    echo " >>> Binaries already built."
 else
     echo " >>> Building binaries..."
     buildBinaries
@@ -57,13 +58,30 @@ fi
 
 popd >/dev/null
 
-echo " >>> Install binaries..."
+NEW_BEACON_NODE="${PWD}/repo/build/nimbus_beacon_node_${COMMIT}.exe"
+NEW_SIGNING_PROC="${PWD}/repo/build/nimbus_signing_process_${COMMIT}.exe" 
+OLD_BEACON_NODE="${INSTALL_PATH}/nimbus_beacon_node.exe"
+OLD_SIGNING_PROC="${INSTALL_PATH}/nimbus_signing_process.exe"
+
 # Fix for symlink creation in Windows Git Bash.
 # WARNING: Works only for Administrator and SYSTEM users.
 export MSYS=winsymlinks:nativestrict
-ln -vfs "${PWD}/repo/build/nimbus_beacon_node_${COMMIT}.exe" \
-        "${INSTALL_PATH}/nimbus_beacon_node.exe"
-ln -vfs "${PWD}/repo/build/nimbus_signing_process_${COMMIT}.exe" \
-        "${INSTALL_PATH}/nimbus_signing_process.exe"
 
-echo " >>> SUCCESS"
+CHANGED=0
+if [[ $(readlink "${OLD_BEACON_NODE}") != "${NEW_BEACON_NODE}" ||
+      $(readlink "${OLD_SIGNING_PROC}") != "${NEW_SIGNING_PROC}" ]]; then
+    echo " >>> Install binaries..."
+    ln -vrfs "${NEW_BEACON_NODE}" "${OLD_BEACON_NODE}"
+    ln -vrfs "${NEW_SIGNING_PROC}" "${OLD_SIGNING_PROC}"
+    CHANGED=1
+else
+    echo " >>> No binaries required update."
+fi
+
+if [[ "${CHANGED}" -eq 1 ]]; then
+    echo " >>> Restarting service..."
+    net stop "${SERVICE_NAME}"
+    net start "${SERVICE_NAME}"
+fi
+
+echo " >>> SUCCESS!"
