@@ -43,3 +43,8 @@ TimeCreated           Message
 6/17/2021 11:09:46 AM Task Scheduler queued instance "{72498e41-91ee-4318-95f4-54daca2acf2f}"  of task "\beacon-node-prater-unstable-build".
 6/17/2021 11:06:55 AM Task Scheduler successfully finished "{747c0708-0908-4514-a4b4-c6e71d6132c0}" instance of the "\beacon-node-prater-stable-build" task for user "NT AUTHORITY\SYSTEM".
 ```
+
+# Known Issues
+
+* The WinSW wrapper fails to grant `Log On As Service` right. ([winsw#840](https://github.com/winsw/winsw/issues/840))
+* The `--log-file` flag has no effect on windows. ([nimbus-eth2#2326](https://github.com/status-im/nimbus-eth2/issues/2326)

@@ -19,7 +19,6 @@
       {% endfor %}
       --nat=extip:{{ beacon_node_public_address }}
       --log-level={{ beacon_node_log_level }}
-      --log-file={{ beacon_node_service_path }}\log\nimbus.log
       --tcp-port={{ beacon_node_listening_port }}
       --udp-port={{ beacon_node_discovery_port }}
       --max-peers={{ beacon_node_max_peers }}
