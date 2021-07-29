@@ -1,0 +1,5 @@
+---
+- name: Create JSON RPC wrapper script
+  win_template:
+    src: 'rpc.sh.j2'
+    dest: '{{ beacon_node_rpc_script_path }}'

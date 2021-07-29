@@ -3,6 +3,7 @@
 - import_tasks: user.yml
 - import_tasks: install.yml
 - import_tasks: build.yml
+- import_tasks: config.yml
 - import_tasks: service.yml
 - import_tasks: validators.yml
   when: beacon_node_dist_validators_enabled
