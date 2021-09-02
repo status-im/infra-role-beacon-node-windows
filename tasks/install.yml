@@ -22,6 +22,12 @@
   args:
     creates: '{{ beacon_node_repo_path }}'
 
+- name: Update Git repo branch
+  win_shell: |
+    git checkout --force {{ beacon_node_repo_branch }}
+  args:
+    chdir: '{{ beacon_node_repo_path }}'
+
 - name: Fix repo permissions
   win_owner:
     path: '{{ beacon_node_repo_path }}'
