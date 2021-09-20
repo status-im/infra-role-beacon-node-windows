@@ -13,22 +13,38 @@
     winsw_service_arguments: |
       --non-interactive
       --network={{ beacon_node_network }}
-      --data-dir={{ beacon_node_data_path }}\{{ beacon_node_data_folder }}
+      --data-dir="{{ beacon_node_data_path }}\{{ beacon_node_data_folder }}"
       {% for url in beacon_node_web3_urls | mandatory %}
       --web3-url={{ url | mandatory }}
       {% endfor %}
+      {% if beacon_node_validators_dir != "" %}
+      --validators-dir="{{ beacon_node_validators_dir }}"
+      {% endif %}
+      {% if beacon_node_secrets_dir != "" %}
+      --secrets-dir="{{ beacon_node_secrets_dir }}"
+      {% endif %}
       --nat=extip:{{ beacon_node_public_address }}
       --log-level={{ beacon_node_log_level }}
       --tcp-port={{ beacon_node_listening_port }}
       --udp-port={{ beacon_node_discovery_port }}
       --max-peers={{ beacon_node_max_peers }}
+      --num-threads={{ beacon_node_threads }}
       --slashing-db-kind={{ beacon_node_slashing_db_kind }}
       --insecure-netkey-password=true
       --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }}
       --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }}
-      --rpc
-      --rpc-address=0.0.0.0
+      --rpc={{ beacon_node_rpc_enabled | to_json }}
+      {% if beacon_node_rpc_enabled %}
+      --rpc-address={{ beacon_node_rpc_address }}
       --rpc-port={{ beacon_node_rpc_port }}
-      --metrics
-      --metrics-address=0.0.0.0
+      {% endif %}
+      --rest={{ beacon_node_rest_enabled | to_json }}
+      {% if beacon_node_rest_enabled %}
+      --rest-address={{ beacon_node_rest_address }}
+      --rest-port={{ beacon_node_rest_port }}
+      {% endif %}
+      --metrics={{ beacon_node_metrics_enabled | to_json }}
+      {% if beacon_node_metrics_enabled %}
+      --metrics-address={{ beacon_node_metrics_address }}
       --metrics-port={{ beacon_node_metrics_port }}
+      {% endif %}
