@@ -15,12 +15,16 @@
     path: '{{ beacon_node_service_home }}\.ssh'
     state: 'directory'
 
-- name: Copy SSH authorized keys from admin
-  win_copy:
-    src: 'C:\Users\admin\.ssh\authorized_keys'
-    dest: '{{ beacon_node_service_home }}\.ssh\authorized_keys'
-    remote_src: true
-  become_user: '{{ beacon_node_service_user_name }}'
+# Otherwise Set-Content fails because Get-Content read from the same file.
+- name: Remove old SSH authorized keys for nimbus
+  win_file:
+    path: '{{ beacon_node_service_home }}\.ssh\authorized_keys'
+    state: 'absent'
+
+- name: Copy SSH authorized keys from all users
+  win_shell: |
+    Get-Content C:\Users\*\.ssh\authorized_keys \
+      | Set-Content -Force {{ beacon_node_service_home }}\.ssh\authorized_keys
 
 - name: Fix permissions on the SSH folder
   win_owner:
