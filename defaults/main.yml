@@ -15,6 +15,7 @@ beacon_node_repo_branch: 'stable'
 beacon_node_repo_path: '{{ beacon_node_service_path }}\repo'
 beacon_node_build_frequency: 'daily'
 beacon_node_build_start_time: '01:00:00'
+beacon_node_build_days_kept: 3
 
 # shared testnet name: mainnet, pyrmont, prater, etc.
 beacon_node_network: 'mainnet'
