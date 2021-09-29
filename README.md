@@ -27,13 +27,30 @@ beacon_node_log_level: DEBUG
 
 # Management
 
-The containers are managed using [WinSW](https://github.com/winsw/winsw).
+The services are managed using [WinSW](https://github.com/winsw/winsw).
 ```
-TODO
+admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable                                                                                                                                                                                                                                         
+$ ./beacon-node-prater-stable.exe status                                                                                                                                                                                                                                                              
+Started                                                                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                                                                                      
+admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable                                                                                                                                                                                                                                         
+$ ./beacon-node-prater-stable.exe restart                                                                                                                                                                                                                                                             
+2021-09-29 17:33:27,563 INFO  - Stopping service 'Beacon Node prater (unstable) (beacon-node-prater-stable)'...                                                                                                                                                                                       
+2021-09-29 17:33:27,825 INFO  - Starting service 'Beacon Node prater (unstable) (beacon-node-prater-stable)'...                                                                                                                                                                                       
+2021-09-29 17:33:28,366 INFO  - Service 'Beacon Node prater (unstable) (beacon-node-prater-stable)' restarted successfully.  
 ```
-
+The scheduled tasks that trigger beacon node builds can be checked with `Get-ScheduledTask`:
+```log
+PS C:\Users\admin> Get-ScheduledTask -TaskName 'build-beacon-node*' | ft State,TaskName,Description,Date                                                                                                                                                                                              
+                                                                                                         
+State TaskName                          Description                                  Date                                                                                                                                                                                                             
+----- --------                          -----------                                  ----                                                                                                                                                                                                             
+Ready build-beacon-node-prater-stable   Daily rebuild of Nimbus beacon node binaries 2021-09-29T13:00:00                                                                                                                                                                                              
+Ready build-beacon-node-prater-testing  Daily rebuild of Nimbus beacon node binaries 2021-09-29T17:00:00                                                                                                                                                                                              
+Ready build-beacon-node-prater-unstable Daily rebuild of Nimbus beacon node binaries 2021-09-29T15:00:00
+```
 The logs for scheduled tasks running builds can be looked up using `Get-WinEvent`:
-```
+```log
 PS C:\Users\nimbus\beacon-node-prater-stable> Get-WinEvent -LogName Microsoft-Windows-TaskScheduler/Operational | Select -First 4 | ft -Property TimeCreated,Message
 
 TimeCreated           Message
