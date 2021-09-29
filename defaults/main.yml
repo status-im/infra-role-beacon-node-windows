@@ -13,6 +13,7 @@ beacon_node_secrets_dir: "" # empty string means no override
 beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth2.git'
 beacon_node_repo_branch: 'stable'
 beacon_node_repo_path: '{{ beacon_node_service_path }}\repo'
+beacon_node_build_service_name: 'build-{{ beacon_node_service_name }}'
 beacon_node_build_frequency: 'daily'
 beacon_node_build_start_time: '01:00:00'
 beacon_node_build_days_kept: 3

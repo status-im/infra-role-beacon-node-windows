@@ -8,7 +8,7 @@
 - name: Schedule and start node builds
   win_scheduled_task:
     description: 'Daily rebuild of Nimbus beacon node binaries'
-    name: '{{ beacon_node_service_name }}-build'
+    name: '{{ beacon_node_build_service_name }}'
     username: SYSTEM
     actions:
       - path: 'C:\ProgramData\scoop\apps\git\current\bin\bash.exe'
@@ -31,12 +31,12 @@
 
 # Start it right away so we have the binary to run.
 - name: Start the new scheduled task
-  win_shell: 'Start-ScheduledTask -TaskName {{ beacon_node_service_name }}-build'
+  win_shell: 'Start-ScheduledTask -TaskName {{ beacon_node_build_service_name }}'
   when: not beacon_node_exe.stat.exists
 
 - name: Wait for the node build to finish (SLOW)
   win_scheduled_task_stat:
-    name: '{{ beacon_node_service_name }}-build'
+    name: '{{ beacon_node_build_service_name }}'
   when: not beacon_node_exe.stat.exists
   register: task_stat
   until: |
