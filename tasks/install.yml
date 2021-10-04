@@ -5,6 +5,7 @@
     state: 'directory'
   with_items:
     - '{{ beacon_node_service_path }}'
+    - '{{ beacon_node_service_logs_path }}'
     - '{{ beacon_node_service_bin_path }}'
     - '{{ beacon_node_data_path }}'
 

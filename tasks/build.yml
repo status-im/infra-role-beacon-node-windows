@@ -12,7 +12,7 @@
     username: SYSTEM
     actions:
       - path: 'C:\ProgramData\scoop\apps\git\current\bin\bash.exe'
-        arguments: '-c "./build.sh > build.log 2>&1"'
+        arguments: '-c "./build.sh > logs\build.log 2>&1"'
         working_directory: '{{ beacon_node_service_path }}'
     triggers:
       - type: '{{ beacon_node_build_frequency }}'
