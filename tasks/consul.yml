@@ -9,6 +9,10 @@
         port: '{{ beacon_node_listening_port }}'
         address: '{{ beacon_node_public_address }}'
         tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus']
+        checks:
+          - name: '{{ beacon_node_consul_service_name }}-rest-health'
+            type: 'http'
+            http: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/version'
 
       - id: '{{ beacon_node_service_name }}-metrics'
         name: '{{ beacon_node_consul_metrics_service_name }}'
@@ -20,4 +24,4 @@
         checks:
           - name: '{{ beacon_node_consul_metrics_service_name }}-health'
             type: 'http'
-            http: 'http://localhost:{{ beacon_node_metrics_port }}/metrics'
+            http: 'http://localhost:{{ beacon_node_metrics_port }}/health'
