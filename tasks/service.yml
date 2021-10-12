@@ -9,6 +9,9 @@
     winsw_service_logon_enabled: true
     winsw_service_logon_domain: '{{ ansible_netbios_name }}'
     winsw_service_logon_pass: '{{ beacon_node_service_user_pass }}'
+    winsw_service_log_size: 1024000
+    winsw_service_log_keep: 10
+    winsw_service_log_stderr_disabled: true
     winsw_service_exe_path: '{{ beacon_node_service_exe }}'
     winsw_service_arguments: |
       --non-interactive
