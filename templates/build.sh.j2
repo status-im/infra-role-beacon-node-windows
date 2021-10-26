@@ -36,6 +36,8 @@ BRANCH="{{ beacon_node_repo_branch }}"
 INSTALL_PATH="{{ beacon_node_service_bin_path }}"
 SERVICE_NAME="{{ beacon_node_service_name }}"
 
+echo " >>> Build Start: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
 # Build the Beacon node binaries
 pushd repo >/dev/null
 
