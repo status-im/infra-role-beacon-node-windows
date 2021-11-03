@@ -21,7 +21,8 @@ beacon_node_build_days_kept: 3
 
 # shared testnet name: mainnet, pyrmont, prater, etc.
 beacon_node_network: 'mainnet'
-beacon_node_log_level: 'INFO'
+beacon_node_log_level: 'INFO' # TRACE DEBUG INFO NOTICE WARN ERROR FATAL NONE
+beacon_node_log_format: 'json' # auto colors nocolors json none
 beacon_node_data_folder: 'shared_{{ beacon_node_network }}_0'
 beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
