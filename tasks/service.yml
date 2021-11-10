@@ -27,7 +27,7 @@
       --secrets-dir="{{ beacon_node_secrets_dir }}"
       {% endif %}
       {% if beacon_node_repo_branch == "unstable" %}
-      --log-stdout={{ beacon_node_log_format }}
+      --log-format={{ beacon_node_log_format }}
       {% endif %}
       --log-level={{ beacon_node_log_level }}
       --nat=extip:{{ beacon_node_public_address }}
