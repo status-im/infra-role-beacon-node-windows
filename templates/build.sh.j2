@@ -19,12 +19,11 @@ function fetchChanges() {
 function buildBinaries() {
     # Just one process so it doesn't affect the running beacon nodes.
     make -j1 update V=3
-    make -j1 nimbus_beacon_node nimbus_signing_process V=3 \
+    make -j1 nimbus_beacon_node V=3 \
         LOG_LEVEL="TRACE" NIMFLAGS="-d:testnet_servers_image -d:noSignalHandler"
 
     # Rename binaries to match commit the were built from.
     mv "build/nimbus_beacon_node" "build/nimbus_beacon_node_${COMMIT}"
-    mv "build/nimbus_signing_process" "build/nimbus_signing_process_${COMMIT}"
 
     # Delete copies that are older than N days
     find build -mtime +{{ beacon_node_build_days_kept }} -exec rm '{}' \+
@@ -63,20 +62,16 @@ fi
 popd >/dev/null
 
 NEW_BEACON_NODE="${PWD}/repo/build/nimbus_beacon_node_${COMMIT}.exe"
-NEW_SIGNING_PROC="${PWD}/repo/build/nimbus_signing_process_${COMMIT}.exe" 
 OLD_BEACON_NODE="${INSTALL_PATH}/nimbus_beacon_node.exe"
-OLD_SIGNING_PROC="${INSTALL_PATH}/nimbus_signing_process.exe"
 
 # Fix for symlink creation in Windows Git Bash.
 # WARNING: Works only for Administrator and SYSTEM users.
 export MSYS=winsymlinks:nativestrict
 
 CHANGED=0
-if [[ $(readlink "${OLD_BEACON_NODE}") != "${NEW_BEACON_NODE}" ||
-      $(readlink "${OLD_SIGNING_PROC}") != "${NEW_SIGNING_PROC}" ]]; then
+if [[ $(readlink "${OLD_BEACON_NODE}") != "${NEW_BEACON_NODE}" ]]; then
     echo " >>> Install binaries..."
     ln -vrfs "${NEW_BEACON_NODE}" "${OLD_BEACON_NODE}"
-    ln -vrfs "${NEW_SIGNING_PROC}" "${OLD_SIGNING_PROC}"
     CHANGED=1
 else
     echo " >>> No binaries required update."
