@@ -18,8 +18,8 @@ function fetchChanges() {
 
 function buildBinaries() {
     # Just one process so it doesn't affect the running beacon nodes.
-    make -j1 update V=3
-    make -j1 nimbus_beacon_node V=3 \
+    make -j1 update OVERRIDE=1
+    make -j1 nimbus_beacon_node \
         LOG_LEVEL="TRACE" NIMFLAGS="-d:testnet_servers_image -d:noSignalHandler"
 
     # Rename binaries to match commit the were built from.
