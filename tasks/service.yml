@@ -52,3 +52,9 @@
       --metrics-address={{ beacon_node_metrics_address }}
       --metrics-port={{ beacon_node_metrics_port }}
       {% endif %}
+      {% if beacon_node_validator_monitor_auto %}
+      --validator-monitor-auto
+      {% endif %}
+      {% if beacon_node_validator_monitor_totals %}
+      --validator-monitor-totals
+      {% endif %}
