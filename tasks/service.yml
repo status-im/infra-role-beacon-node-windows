@@ -58,3 +58,6 @@
       {% if beacon_node_validator_monitor_totals %}
       --validator-monitor-totals
       {% endif %}
+      {% for pubkey in beacon_node_validator_monitor_pubkeys %}
+      --validator-monitor-pubkey={{ pubkey }}
+      {% endfor %}
