@@ -34,13 +34,6 @@
     path: '{{ beacon_node_repo_path }}'
     user: '{{ beacon_node_service_user_name }}'
 
-# WARNING: There's a known issue with broken GCC mirrors:
-# https://github.com/ScoopInstaller/Main/issues/1752
-- name: Disgusting fix for GCC availability
-  win_shell: >
-    sed -i 's#http://repo.msys2.org/#http://mirrors.huaweicloud.com/msys2/#' \
-      C:\Users\{{ ansible_become_user }}\scoop\buckets\main\bucket\gcc.json
-
 - name: Install GCC to compile Nim
   win_shell: 'scoop install --global gcc'
 
