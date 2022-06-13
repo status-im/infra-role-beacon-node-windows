@@ -62,8 +62,8 @@
       --validator-monitor-pubkey={{ pubkey }}
       {% endfor %}
       {% if beacon_node_light_client_data_enabled %}
-      --serve-light-client-data={{ beacon_node_light_client_data_serve | to_json }}
-      --import-light-client-data={{ beacon_node_light_client_data_import }}
+      --light-client-data-serve={{ beacon_node_light_client_data_serve | to_json }}
+      --light-client-data-import-mode={{ beacon_node_light_client_data_import_mode }}
       {% endif %}
       {% for extra_flag in beacon_node_extra_flags %}
       {{ extra_flag }}
