@@ -5,6 +5,8 @@
     profile: '{{ beacon_node_service_home }}'
     home_directory: '{{ beacon_node_service_home }}'
     password: '{{ beacon_node_service_user_pass }}'
+    password_expired: false
+    password_never_expires: true
 
 - name: Create user profile
   win_user_profile:
