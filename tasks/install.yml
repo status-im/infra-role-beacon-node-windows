@@ -14,6 +14,19 @@
     path: '{{ beacon_node_service_path }}'
     user: '{{ beacon_node_service_user_name }}'
 
+- name: Disable inheritance on data dir
+  win_acl_inheritance:
+    path:   '{{ beacon_node_data_path }}'
+    state:  'absent'
+
+- name: Fix data folder ownership
+  win_acl:
+    path:    '{{ beacon_node_data_path }}'
+    user:    '{{ beacon_node_service_user_name }}'
+    rights:  'FullControl'
+    inherit: 'ContainerInherit, ObjectInherit'
+    type:    'allow'
+
 - name: Clone Git repository
   win_shell: |
     git --no-pager clone \
