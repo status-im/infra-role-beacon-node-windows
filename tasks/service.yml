@@ -16,7 +16,7 @@
     winsw_service_arguments: |
       --non-interactive
       --network={{ beacon_node_network }}
-      --data-dir="{{ beacon_node_data_path }}\{{ beacon_node_data_folder }}"
+      --data-dir={{ beacon_node_data_path }}
       {% for url in beacon_node_web3_urls | mandatory %}
       --web3-url={{ url | mandatory }}
       {% endfor %}
