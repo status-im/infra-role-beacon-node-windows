@@ -20,12 +20,6 @@
       {% for url in beacon_node_web3_urls | mandatory %}
       --web3-url={{ url | mandatory }}
       {% endfor %}
-      {% if beacon_node_validators_dir != "" %}
-      --validators-dir="{{ beacon_node_validators_dir }}"
-      {% endif %}
-      {% if beacon_node_secrets_dir != "" %}
-      --secrets-dir="{{ beacon_node_secrets_dir }}"
-      {% endif %}
       --log-format={{ beacon_node_log_format }}
       --log-level={{ beacon_node_log_level }}
       --nat=extip:{{ beacon_node_public_address }}
