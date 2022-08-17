@@ -23,6 +23,9 @@
       {% if beacon_node_web3_jwt_secret is defined %}
       --jwt-secret="{{ beacon_node_web3_jwt_secret_path | mandatory }}"
       {% endif %}
+      {% if beacon_node_suggested_fee_recipient is defined %}
+      --suggested-fee-recipient={{ beacon_node_suggested_fee_recipient | mandatory }}
+      {% endif %}
       --log-format={{ beacon_node_log_format }}
       --log-level={{ beacon_node_log_level }}
       --nat=extip:{{ beacon_node_public_address }}
