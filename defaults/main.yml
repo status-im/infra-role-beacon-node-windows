@@ -7,7 +7,6 @@ beacon_node_service_path: '{{ beacon_node_service_home }}\{{ beacon_node_service
 beacon_node_service_logs_path: '{{ beacon_node_service_path }}\logs'
 beacon_node_service_bin_path: '{{ beacon_node_service_path }}\bin'
 beacon_node_service_exe: '{{ beacon_node_service_bin_path }}\nimbus_beacon_node.exe'
-beacon_node_rpc_script_path: '{{ beacon_node_service_path }}\rpc.sh'
 
 beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth2.git'
 beacon_node_repo_branch: 'stable'

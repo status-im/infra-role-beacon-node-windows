@@ -1,9 +1,4 @@
 ---
-- name: Create JSON RPC wrapper script
-  win_template:
-    src: 'rpc.sh.j2'
-    dest: '{{ beacon_node_rpc_script_path }}'
-
 - name: Create JWT secret file (optional)
   when: beacon_node_web3_jwt_secret is defined
   copy:
