@@ -1,10 +1,19 @@
 ---
+# Necessary to be able to create folders inside.
+- name: Temporarily enable inheritance on data dir
+  win_acl_inheritance:
+    path:   '{{ beacon_node_data_path }}'
+    state:  'present'
+
 - name: Create service folders
   win_file:
     path: '{{ item }}'
     state: 'directory'
   with_items:
     - '{{ beacon_node_service_path }}'
+    - '{{ beacon_node_era_dir_path }}'
+    - '{{ beacon_node_secrets_path }}'
+    - '{{ beacon_node_validators_path }}'
     - '{{ beacon_node_service_logs_path }}'
     - '{{ beacon_node_service_bin_path }}'
     - '{{ beacon_node_data_path }}'
