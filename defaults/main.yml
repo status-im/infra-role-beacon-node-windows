@@ -5,6 +5,8 @@ beacon_node_service_user_pass: '{{ ansible_date_time.epoch | password_hash("sha5
 beacon_node_service_home: 'C:\Users\{{ beacon_node_service_user_name }}'
 beacon_node_service_path: '{{ beacon_node_service_home }}\{{ beacon_node_service_name }}'
 beacon_node_era_dir_path: '{{ beacon_node_data_path }}\era'
+beacon_node_secrets_path: '{{ beacon_node_data_path }}\secrets'
+beacon_node_validators_path: '{{ beacon_node_data_path }}\validators'
 beacon_node_service_logs_path: '{{ beacon_node_service_path }}\logs'
 beacon_node_service_bin_path: '{{ beacon_node_service_path }}\bin'
 beacon_node_service_exe: '{{ beacon_node_service_bin_path }}\nimbus_beacon_node.exe'
@@ -42,7 +44,8 @@ beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "noc
 # Automatically distribute validators
 beacon_node_dist_validators_enabled: false
 beacon_node_dist_validators_name: '{{ beacon_node_network }}_deposits'
-beacon_node_dist_validators_path: '{{ beacon_node_data_path }}'
+beacon_node_dist_validators_sec_path: '{{ beacon_node_secrets_path }}'
+beacon_node_dist_validators_val_path: '{{ beacon_node_validators_path }}'
 #beacon_node_dist_validators_start: ~
 #beacon_node_dist_validators_end: ~
 
