@@ -1,4 +1,24 @@
 ---
+- name: Clone Git repository
+  win_shell: |
+    git --no-pager clone \
+      {{ beacon_node_repo_url }} \
+      {{ beacon_node_repo_path }} \
+      --branch {{ beacon_node_repo_branch }}
+  args:
+    creates: '{{ beacon_node_repo_path }}'
+
+- name: Update Git repo branch
+  win_shell: |
+    git checkout --force {{ beacon_node_repo_branch }}
+  args:
+    chdir: '{{ beacon_node_repo_path }}'
+
+- name: Fix repo permissions
+  win_owner:
+    path: '{{ beacon_node_repo_path }}'
+    user: '{{ beacon_node_service_user_name }}'
+
 - name: Create build script
   win_template:
     src: 'build.sh.j2'
