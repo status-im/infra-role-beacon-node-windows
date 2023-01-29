@@ -10,7 +10,15 @@
     state: 'present'
   register: machine_path
 
+- name: Set CC variable to fix builds
+  win_path:
+    name: 'CC'
+    elements: 'gcc'
+    scope: 'machine'
+    state: 'present'
+  register: machine_cc
+
 - name: Restart host for PATH change to work
   win_reboot:
     reboot_timeout: 160
-  when: machine_path.changed
+  when: machine_path.changed or machine_cc.changed
