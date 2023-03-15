@@ -37,13 +37,13 @@
     type:    'allow'
 
 - name: Create JWT secret file (optional)
-  when: beacon_node_web3_jwt_secret is defined
+  when: beacon_node_exec_layer_jwt_secret is defined
   copy:
-    dest:    '{{ beacon_node_web3_jwt_secret_path }}'
-    content: '{{ beacon_node_web3_jwt_secret }}'
+    dest:    '{{ beacon_node_exec_layer_jwt_secret_path }}'
+    content: '{{ beacon_node_exec_layer_jwt_secret }}'
 
 - name: Fix JWT secret file permissions
-  when: beacon_node_web3_jwt_secret is defined
+  when: beacon_node_exec_layer_jwt_secret is defined
   win_owner:
-    path: '{{ beacon_node_web3_jwt_secret_path }}'
+    path: '{{ beacon_node_exec_layer_jwt_secret_path }}'
     user: '{{ beacon_node_service_user_name }}'
