@@ -21,9 +21,13 @@
       --validators-dir="{{ beacon_node_validators_path }}"
       --era-dir="{{ beacon_node_era_dir_path }}"
       --history="{{ beacon_node_history_retention }}"
+      {% if beacon_node_exec_layer_urls|length == 0 %}
+      --no-el=true
+      {% else %}
       {% for url in beacon_node_exec_layer_urls | mandatory %}
       --el="{{ url | mandatory }}"
       {% endfor %}
+      {% endif %}
       {% if beacon_node_exec_layer_jwt_secret is defined %}
       --jwt-secret="{{ beacon_node_exec_layer_jwt_secret_path | mandatory }}"
       {% endif %}
