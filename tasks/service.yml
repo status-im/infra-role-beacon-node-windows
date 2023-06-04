@@ -51,6 +51,9 @@
       --rest-port={{ beacon_node_rest_port }}
       --rest-max-body-size={{ beacon_node_rest_max_body_size | mandatory }}
       --rest-max-headers-size={{ beacon_node_rest_max_headers_size | mandatory }}
+      {% if beacon_node_rest_allow_origin != '' %}
+      --rest-allow-origin="{{ beacon_node_rest_allow_origin }}"
+      {% endif %}
       {% endif %}
       --metrics={{ beacon_node_metrics_enabled | to_json }}
       {% if beacon_node_metrics_enabled %}
