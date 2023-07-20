@@ -12,16 +12,21 @@
   win_shell: |
     git config --global --add safe.directory {{ beacon_node_repo_path }}
 
+- name: Fix repo folder ownership
+  win_acl:
+    path:    '{{ beacon_node_repo_path }}'
+    user:    '{{ beacon_node_service_user_name }}'
+    rights:  'FullControl'
+    inherit: 'ContainerInherit, ObjectInherit'
+    type:    'allow'
+
 - name: Update Git repo branch
+  become: true
+  become_user: '{{ beacon_node_service_user_name }}'
   win_shell: |
     git checkout --force {{ beacon_node_repo_branch }}
   args:
     chdir: '{{ beacon_node_repo_path }}'
-
-- name: Fix repo permissions
-  win_owner:
-    path: '{{ beacon_node_repo_path }}'
-    user: '{{ beacon_node_service_user_name }}'
 
 - name: Create build script
   win_template:
