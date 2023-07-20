@@ -1,6 +1,6 @@
 ---
-- name: Install GCC to compile Nim
-  win_shell: 'scoop install --global gcc'
+- name: Install GCC and CMake to compile Nim
+  win_shell: 'scoop install --global gcc cmake'
 
 - name: Add GCC to the system wide PATH
   win_path:
