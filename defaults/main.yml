@@ -40,7 +40,7 @@ beacon_node_validator_monitor_pubkeys: []
 beacon_node_data_path: '{{ beacon_node_service_path }}\data'
 
 # For validation
-beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "nocturne"]
+beacon_node_valid_network_names: ["mainnet", "prater", "sepolia", "holesky"]
 
 # Automatically distribute validators
 beacon_node_dist_validators_enabled: false
