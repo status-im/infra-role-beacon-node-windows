@@ -41,7 +41,6 @@
       --udp-port={{ beacon_node_discovery_port }}
       --max-peers={{ beacon_node_max_peers }}
       --num-threads={{ beacon_node_threads }}
-      --slashing-db-kind={{ beacon_node_slashing_db_kind }}
       --insecure-netkey-password=true
       --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }}
       --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }}
