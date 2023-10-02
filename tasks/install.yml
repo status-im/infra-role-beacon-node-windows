@@ -1,11 +1,13 @@
 ---
-- name: Install GCC and CMake to compile Nim
-  win_shell: 'scoop install --global gcc cmake'
+- name: Install MinGW-Nuwen and CMake to compile Nim
+  win_shell: 'scoop install --global mingw-nuwen gcc cmake'
 
 - name: Add GCC to the system wide PATH
   win_path:
     name: 'PATH'
-    elements: 'C:\ProgramData\scoop\apps\gcc\current\bin'
+    elements:
+      - 'C:\ProgramData\scoop\apps\mingw-nuwen\current\bin'
+      - 'C:\ProgramData\scoop\apps\gcc\current\bin'
     scope: 'machine'
     state: 'present'
   register: machine_path
