@@ -1,6 +1,6 @@
 ---
 - name: 'Consul service definition - {{ beacon_node_service_name }}'
-  include_role: name=consul-service
+  include_role: name=infra-role-consul-service
   vars:
     consul_config_name: '{{ beacon_node_consul_service_file_name }}'
     consul_services:

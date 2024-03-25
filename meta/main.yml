@@ -10,6 +10,9 @@ galaxy_info:
       versions:
         - all
   dependencies:
+    - name: infra-role-consul-service
+      src: git+git@github.com:status-im/infra-role-consul-service.git
+      scm: git
     - name: infra-role-winsw
       src: git+git@github.com:status-im/infra-role-winsw.git
       scm: git
