@@ -2,10 +2,11 @@
 - name: Create windows service
   include_role: name=infra-role-winsw
   vars:
-    winsw_service_id: '{{ beacon_node_service_name }}'
     winsw_service_name: 'Beacon Node {{ beacon_node_network }} ({{ beacon_node_repo_branch }})'
     winsw_service_description: 'Nimbus Eth2 Beacon Node running on {{ beacon_node_network }} network using {{ beacon_node_repo_branch }} branch.'
-    winsw_service_user: 'nimbus'
+    winsw_service_id:   '{{ beacon_node_service_name }}'
+    winsw_service_path: '{{ beacon_node_service_path }}'
+    winsw_service_user: '{{ beacon_node_service_user_name }}'
     winsw_service_logon_enabled: true
     winsw_service_logon_domain: '{{ ansible_netbios_name }}'
     winsw_service_logon_pass: '{{ beacon_node_service_user_pass }}'
