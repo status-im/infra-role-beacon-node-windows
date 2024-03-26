@@ -1,6 +1,7 @@
 ---
 - name: Install MinGW-Nuwen and CMake to compile Nim
-  win_shell: 'scoop install --global mingw-nuwen gcc cmake'
+  win_shell: |
+    scoop install --no-update-scoop --global mingw-nuwen gcc cmake
 
 - name: Add GCC to the system wide PATH
   win_path:
@@ -24,3 +25,15 @@
   win_reboot:
     reboot_timeout: 160
   when: machine_path.changed or machine_cc.changed
+
+- name: Check installed GCC version
+  register: gcc_version
+  win_shell: |
+    gcc --version
+
+# https://github.com/status-im/nimbus-eth2/issues/6139
+- name: Verify GCC version is not 13.2.0
+  assert:
+    that: '{{ "13.2.0" not in gcc_version.stdout }}'
+    fail_msg: 'Binaries built with GCC 13.2.0 can segfault.'
+    quiet: true
