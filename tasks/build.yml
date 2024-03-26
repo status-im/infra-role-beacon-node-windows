@@ -10,7 +10,7 @@
 
 - name: Allow admin user to use nimbus user repos
   win_shell: |
-    git config --global --add safe.directory {{ beacon_node_repo_path }}
+    git config --global --replace-all safe.directory '*'
 
 - name: Fix repo folder ownership
   win_acl:
