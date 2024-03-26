@@ -4,6 +4,7 @@ beacon_node_service_user_name: 'nimbus'
 beacon_node_service_user_pass: '{{ ansible_date_time.epoch | password_hash("sha512") }}'
 beacon_node_service_home: 'C:\Users\{{ beacon_node_service_user_name }}'
 beacon_node_service_path: '{{ beacon_node_service_home }}\{{ beacon_node_service_name }}'
+beacon_node_data_path: '{{ beacon_node_service_path }}\data'
 beacon_node_era_dir_path: '{{ beacon_node_data_path }}\era'
 beacon_node_secrets_path: '{{ beacon_node_data_path }}\secrets'
 beacon_node_validators_path: '{{ beacon_node_data_path }}\validators'
@@ -35,9 +36,6 @@ beacon_node_extra_flags: []
 beacon_node_validator_monitor_auto: false
 beacon_node_validator_monitor_details: false
 beacon_node_validator_monitor_pubkeys: []
-
-# Location for all node data
-beacon_node_data_path: '{{ beacon_node_service_path }}\data'
 
 # For validation
 beacon_node_valid_network_names: ["mainnet", "prater", "sepolia", "holesky"]
