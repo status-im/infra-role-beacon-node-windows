@@ -5,36 +5,39 @@
     state: 'directory'
   with_items:
     - '{{ beacon_node_service_path }}'
-    - '{{ beacon_node_era_dir_path }}'
-    - '{{ beacon_node_secrets_path }}'
-    - '{{ beacon_node_validators_path }}'
     - '{{ beacon_node_service_logs_path }}'
     - '{{ beacon_node_service_bin_path }}'
     - '{{ beacon_node_data_path }}'
 
-# Necessary to be able to create folders inside.
-- name: Temporarily enable inheritance on data dir
-  win_acl_inheritance:
-    path:   '{{ beacon_node_data_path }}'
-    state:  'present'
-
 - name: Fix service folder permissions
   win_owner:
-    path: '{{ beacon_node_service_path }}'
+    path: '{{ beacon_node_data_path }}'
     user: '{{ beacon_node_service_user_name }}'
 
-- name: Disable inheritance on data dir
-  win_acl_inheritance:
-    path:   '{{ beacon_node_data_path }}'
-    state:  'absent'
+# Remove all inherited access ACL and grant full access rights to user.
+# https://github.com/status-im/nimbus-eth2/blob/unstable/scripts/makedir.sh
+- name: Fix data folder permissions
+  become: true
+  become_user: '{{ beacon_node_service_user_name }}'
+  vars:
+    ansible_become_user: '{{ beacon_node_service_user_name }}'
+    ansible_become_pass: '{{ beacon_node_service_user_pass }}'
+  win_shell: |
+    icacls '{{ beacon_node_data_path }}' /inheritance:r /grant:r '{{ inventory_hostname_short }}\{{ beacon_node_service_user_name }}:(OI)(CI)(F)'
 
-- name: Fix data folder ownership
-  win_acl:
-    path:    '{{ beacon_node_data_path }}'
-    user:    '{{ beacon_node_service_user_name }}'
-    rights:  'FullControl'
-    inherit: 'ContainerInherit, ObjectInherit'
-    type:    'allow'
+- name: Create data folders
+  become: true
+  become_user: '{{ beacon_node_service_user_name }}'
+  vars:
+    ansible_become_user: '{{ beacon_node_service_user_name }}'
+    ansible_become_pass: '{{ beacon_node_service_user_pass }}'
+  win_file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ beacon_node_era_dir_path }}'
+    - '{{ beacon_node_secrets_path }}'
+    - '{{ beacon_node_validators_path }}'
 
 - name: Create JWT secret file (optional)
   when: beacon_node_exec_layer_jwt_secret is defined
