@@ -19,7 +19,7 @@
       - id: '{{ beacon_node_service_name }}-metrics'
         name: '{{ beacon_node_consul_metrics_service_name }}'
         port: '{{ beacon_node_metrics_port }}'
-        address: '{{ ansible_facts.wireguard.vpn_ip }}'
+        address: '{{ ansible_facts.wireguard.address }}'
         tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus', 'metrics']
         meta:
           container: '{{ beacon_node_service_name }}'
