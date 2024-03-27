@@ -6,7 +6,6 @@
   with_items:
     - '{{ beacon_node_service_path }}'
     - '{{ beacon_node_service_logs_path }}'
-    - '{{ beacon_node_service_bin_path }}'
     - '{{ beacon_node_data_path }}'
 
 - name: Fix service folder permissions
@@ -38,6 +37,7 @@
     - '{{ beacon_node_era_dir_path }}'
     - '{{ beacon_node_secrets_path }}'
     - '{{ beacon_node_validators_path }}'
+    - '{{ beacon_node_service_bin_path }}'
 
 - name: Create JWT secret file (optional)
   when: beacon_node_exec_layer_jwt_secret is defined
