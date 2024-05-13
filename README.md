@@ -45,55 +45,57 @@ beacon_node_exec_layer_urls:
 ```
 The order of Web Socket URLs matters. First is the default, the rest are fallbacks.
 
+Most non-sensitive configuration resides in `conf/config.toml` file in service directory.
+
 # Management
 
 ## Service
 
 The services are managed using [WinSW](https://github.com/winsw/winsw).
 ```
-admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable                                                                                     
-$ ls -l                                                                                                                                           
-total 665                                                                                                                                         
--rwxr-xr-x 1 admin 197121 655872 Jul 16 14:37 beacon-node-prater-stable.exe*                                                                      
--rw-r--r-- 1 admin 197121   1358 Oct 26 09:02 beacon-node-prater-stable.yml                                                                       
-drwxr-xr-x 1 admin 197121      0 Oct 21 13:23 bin/                                                                                                
--rwxr-xr-x 1 admin 197121   2639 Oct  7 07:51 build.sh*                                                                                           
-drwxr-xr-x 1 admin 197121      0 Jul 16 14:49 data/                                                                                               
-drwxr-xr-x 1 admin 197121      0 Oct 26 09:03 logs/                                                                                               
-drwxr-xr-x 1 admin 197121      0 Oct 21 13:03 repo/                                                                                               
+admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable
+$ ls -l
+total 665
+-rwxr-xr-x 1 admin 197121 655872 Jul 16 14:37 beacon-node-prater-stable.exe*
+-rw-r--r-- 1 admin 197121   1358 Oct 26 09:02 beacon-node-prater-stable.yml
+drwxr-xr-x 1 admin 197121      0 Oct 21 13:23 bin/
+-rwxr-xr-x 1 admin 197121   2639 Oct  7 07:51 build.sh*
+drwxr-xr-x 1 admin 197121      0 Jul 16 14:49 data/
+drwxr-xr-x 1 admin 197121      0 Oct 26 09:03 logs/
+drwxr-xr-x 1 admin 197121      0 Oct 21 13:03 repo/
 -rwxr-xr-x 1 admin 197121    682 Oct  7 07:51 rpc.sh*
 
-admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable                                                                                                                                                                                                                                         
-$ ./beacon-node-prater-stable.exe status                                                                                                                                                                                                                                                              
-Started                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                                                                                      
-admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable                                                                                                                                                                                                                                         
-$ ./beacon-node-prater-stable.exe restart                                                                                                                                                                                                                                                             
-2021-09-29 17:33:27,563 INFO  - Stopping service 'Beacon Node prater (stale) (beacon-node-prater-stable)'...                                                                                                                                                                                       
-2021-09-29 17:33:27,825 INFO  - Starting service 'Beacon Node prater (stale) (beacon-node-prater-stable)'...                                                                                                                                                                                       
-2021-09-29 17:33:28,366 INFO  - Service 'Beacon Node prater (stale) (beacon-node-prater-stable)' restarted successfully.  
+admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable
+$ ./beacon-node-prater-stable.exe status
+Started
+
+admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable
+$ ./beacon-node-prater-stable.exe restart
+2021-09-29 17:33:27,563 INFO  - Stopping service 'Beacon Node prater (stale) (beacon-node-prater-stable)'...
+2021-09-29 17:33:27,825 INFO  - Starting service 'Beacon Node prater (stale) (beacon-node-prater-stable)'...
+2021-09-29 17:33:28,366 INFO  - Service 'Beacon Node prater (stale) (beacon-node-prater-stable)' restarted successfully.
 ```
 
 ## Builds
 
 Builds are performed via a Bash `build.sh` script located in the service directory.
 ```
-admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable                                                                                     
-$ ./build.sh                                                                                                                                      
- >>> Fetching changes...                                                                                                                          
-HEAD is now at 9e8081e4 Merge branch 'stable' into unstable                                                                                       
- >>> Binaries already built.                                                                                                                      
- >>> No binaries required update.                                                                                                                 
+admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable
+$ ./build.sh
+ >>> Fetching changes...
+HEAD is now at 9e8081e4 Merge branch 'stable' into unstable
+ >>> Binaries already built.
+ >>> No binaries required update.
  >>> SUCCESS!
 ```
 The scheduled tasks that trigger node builds can be checked with `Get-ScheduledTask`:
 ```log
-PS C:\Users\admin> Get-ScheduledTask -TaskName 'build-beacon-node*' | ft State,TaskName,Description,Date                                                                                                                                                                                              
-                                                                                                         
-State TaskName                          Description                                  Date                                                                                                                                                                                                             
------ --------                          -----------                                  ----                                                                                                                                                                                                             
-Ready build-beacon-node-prater-stable   Daily rebuild of Nimbus beacon node binaries 2021-09-29T13:00:00                                                                                                                                                                                              
-Ready build-beacon-node-prater-testing  Daily rebuild of Nimbus beacon node binaries 2021-09-29T17:00:00                                                                                                                                                                                              
+PS C:\Users\admin> Get-ScheduledTask -TaskName 'build-beacon-node*' | ft State,TaskName,Description,Date
+
+State TaskName                          Description                                  Date
+----- --------                          -----------                                  ----
+Ready build-beacon-node-prater-stable   Daily rebuild of Nimbus beacon node binaries 2021-09-29T13:00:00
+Ready build-beacon-node-prater-testing  Daily rebuild of Nimbus beacon node binaries 2021-09-29T17:00:00
 Ready build-beacon-node-prater-unstable Daily rebuild of Nimbus beacon node binaries 2021-09-29T15:00:00
 ```
 The task can be started using [`Start-ScheduledTask`](https://docs.microsoft.com/en-us/powershell/module/scheduledtasks/start-scheduledtask) and its logs can be looked up using [`Get-WinEvent`](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent):
@@ -110,13 +112,13 @@ TimeCreated           Message
 
 And the logs from the build script itself can be found in the `logs` directory:
 ```
-admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable                                                                                     
-$ tail -n5 logs/build.log                                                                                                                              
- >>> Fetching changes...                                                                                                                          
-HEAD is now at 9e8081e4 Merge branch 'stable' into unstable                                                                                       
- >>> Binaries already built.                                                                                                                      
- >>> No binaries required update.                                                                                                                 
- >>> SUCCESS!  
+admin@windows-01 MINGW64 .../nimbus/beacon-node-prater-stable
+$ tail -n5 logs/build.log
+ >>> Fetching changes...
+HEAD is now at 9e8081e4 Merge branch 'stable' into unstable
+ >>> Binaries already built.
+ >>> No binaries required update.
+ >>> SUCCESS!
 ```
 
 # Known Issues

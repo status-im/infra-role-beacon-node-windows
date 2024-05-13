@@ -5,6 +5,7 @@
     state: 'directory'
   with_items:
     - '{{ beacon_node_service_path }}'
+    - '{{ beacon_node_config_path }}'
     - '{{ beacon_node_service_logs_path }}'
     - '{{ beacon_node_data_path }}'
 
@@ -50,3 +51,9 @@
   win_owner:
     path: '{{ beacon_node_exec_layer_jwt_secret_path }}'
     user: '{{ beacon_node_service_user_name }}'
+
+- name: Create node config
+  win_template:
+    src:  'config.toml.j2'
+    dest: '{{ beacon_node_config_file_path }}'
+  register: beacon_node_config_file

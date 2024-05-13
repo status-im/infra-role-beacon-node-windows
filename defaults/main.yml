@@ -1,10 +1,13 @@
----
+
 beacon_node_service_name: 'beacon-node-{{ beacon_node_network }}-{{ beacon_node_repo_branch }}'
 beacon_node_service_user_name: 'nimbus'
 beacon_node_service_user_pass: '{{ ansible_date_time.epoch | password_hash("sha512") }}'
 beacon_node_service_home: 'C:\Users\{{ beacon_node_service_user_name }}'
 beacon_node_service_path: '{{ beacon_node_service_home }}\{{ beacon_node_service_name }}'
 beacon_node_data_path: '{{ beacon_node_service_path }}\data'
+beacon_node_config_path: '{{ beacon_node_service_path }}\conf'
+beacon_node_config_file_path: '{{ beacon_node_config_path }}\config.toml'
+beacon_node_netkey_path: '{{ beacon_node_data_path }}\netkey'
 beacon_node_era_dir_path: '{{ beacon_node_data_path }}\era'
 beacon_node_secrets_path: '{{ beacon_node_data_path }}\secrets'
 beacon_node_validators_path: '{{ beacon_node_data_path }}\validators'
@@ -28,8 +31,11 @@ beacon_node_network: 'mainnet'
 beacon_node_log_level: 'INFO' # TRACE DEBUG INFO NOTICE WARN ERROR FATAL NONE
 beacon_node_log_format: 'json' # auto colors nocolors json none
 beacon_node_history_retention: 'prune' # archive / prune
+beacon_node_sync_light_client: false
 beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
+# Ability to prevernt restarts after service changes.
+beacon_node_service_restart: true
 beacon_node_extra_flags: []
 
 # Validator Monitoring
