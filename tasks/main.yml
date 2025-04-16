@@ -1,11 +1,28 @@
 ---
 - import_tasks: checks.yml
+  tags: ['beacon-node', 'beacon-node:checks']
+
 - import_tasks: user.yml
+  tags: ['beacon-node', 'beacon-node:user']
+
 - import_tasks: install.yml
+  tags: ['beacon-node', 'beacon-node:install']
+
 - import_tasks: config.yml
+  tags: ['beacon-node', 'beacon-node:config']
+
 - import_tasks: build.yml
+  tags: ['beacon-node', 'beacon-node:build']
+
 - import_tasks: service.yml
+  tags: ['beacon-node', 'beacon-node:service']
+
 - import_tasks: validators.yml
+  tags: ['beacon-node', 'beacon-node:validators']
   when: beacon_node_dist_validators_enabled
+
 - import_tasks: firewall.yml
+  tags: ['beacon-node', 'beacon-node:firewall']
+
 - import_tasks: consul.yml
+  tags: ['beacon-node', 'beacon-node:consul']
