@@ -45,7 +45,7 @@ beacon_node_validator_monitor_details: false
 beacon_node_validator_monitor_pubkeys: []
 
 # For validation
-beacon_node_valid_network_names: ["mainnet", "prater", "sepolia", "holesky"]
+beacon_node_valid_network_names: ["mainnet", "hoodi", "sepolia", "holesky"]
 
 # Automatically distribute validators
 beacon_node_dist_validators_enabled: false
