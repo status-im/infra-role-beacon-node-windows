@@ -38,6 +38,10 @@ SERVICE_NAME="{{ beacon_node_service_name }}"
 SERVICE_PATH="{{ beacon_node_service_path }}"
 
 echo " >>> Build Start: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+# Fixes: 'fatal: detected dubious ownership in repository'
+git config --global --add safe.directory '{{ beacon_node_service_path }}\repo'
+
 cd "${SERVICE_PATH}"
 
 # Build the Beacon node binaries
