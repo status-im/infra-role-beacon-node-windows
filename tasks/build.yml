@@ -55,7 +55,7 @@
 
 - name: Check if binary exists
   win_stat:
-    path: '{{ beacon_node_service_exe }}'
+    path: '{{ beacon_node_binary_path }}'
   register: beacon_node_exe
 
 # Start it right away so we have the binary to run.

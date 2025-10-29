@@ -13,6 +13,7 @@
   win_owner:
     path: '{{ beacon_node_data_path }}'
     user: '{{ beacon_node_service_user_name }}'
+    recurse: true
 
 # Remove all inherited access ACL and grant full access rights to user.
 # https://github.com/status-im/nimbus-eth2/blob/unstable/scripts/makedir.sh
@@ -38,7 +39,7 @@
     - '{{ beacon_node_era_dir_path }}'
     - '{{ beacon_node_secrets_path }}'
     - '{{ beacon_node_validators_path }}'
-    - '{{ beacon_node_service_bin_path }}'
+    - '{{ beacon_node_bin_path }}'
 
 - name: Create JWT secret file (optional)
   when: beacon_node_exec_layer_jwt_secret is defined
