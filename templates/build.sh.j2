@@ -18,17 +18,17 @@ function fetchChanges() {
 
 function buildBinaries() {
     # Control number of jobs used to lower impact on running nodes
-    export MAKEFLAGS="-j{{ beacon_node_build_jobs | int }}"
+    export MAKEFLAGS="-j{{ beacon_node_update_build_jobs | int }}"
 
     # Just one process so it doesn't affect the running beacon nodes.
     make update OVERRIDE=1
-    make {{ beacon_node_build_targets | join(" ") }} \
-        LOG_LEVEL="{{ beacon_node_build_log_level }}" \
-        NIMFLAGS="{{ beacon_node_build_nim_flags }}"
+    make {{ beacon_node_update_build_targets | join(" ") }} \
+        LOG_LEVEL="{{ beacon_node_update_build_log_level }}" \
+        NIMFLAGS="{{ beacon_node_update_build_nim_flags }}"
 
     cd build/
 
-{% for target in beacon_node_build_targets %}
+{% for target in beacon_node_update_build_targets %}
     # Rename binaries to match commit the were built from.
     mv "build/{{ target }}.exe" "build/{{ target }}_${COMMIT}.exe"
     # Create a symbolic link to the latest version
@@ -36,7 +36,7 @@ function buildBinaries() {
 
 {% endfor %}
     # Delete copies that are older than N days
-    find . -mtime +{{ beacon_node_build_days_kept }} -exec rm '{}' \+
+    find . -mtime +{{ beacon_node_update_build_days_kept }} -exec rm '{}' \+
 }
 
 #-------------------------------------------------------------------------------

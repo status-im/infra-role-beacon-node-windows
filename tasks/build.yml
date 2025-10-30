@@ -15,37 +15,41 @@
 - name: Fix repo folder ownership
   win_acl:
     path:    '{{ beacon_node_repo_path }}'
-    user:    '{{ beacon_node_service_user_name }}'
+    user:    '{{ beacon_node_user }}'
     rights:  'FullControl'
     inherit: 'ContainerInherit, ObjectInherit'
     type:    'allow'
 
 - name: Update Git repo branch
   become: true
-  become_user: '{{ beacon_node_service_user_name }}'
+  become_user: '{{ beacon_node_user }}'
   win_shell: |
     git checkout --force {{ beacon_node_repo_branch }}
   args:
     chdir: '{{ beacon_node_repo_path }}'
 
-- name: Create build script
+- name: Create download and build scripts
   win_template:
-    src: 'build.sh.j2'
-    dest: '{{ beacon_node_service_path }}\build.sh'
+    src: '{{ item }}.j2'
+    dest: '{{ beacon_node_service_path }}\{{ item }}'
     mode: 0750
+  with_items:
+    - 'dl-binary.sh'
+    - 'build.sh'
 
-- name: Schedule and start node builds
+- name: Schedule and start node udpates
   win_scheduled_task:
-    description: 'Daily rebuild of Nimbus beacon node binaries'
-    name: '{{ beacon_node_build_service_name }}'
+    description: 'Daily update of Nimbus beacon node binaries'
+    name: '{{ beacon_node_update_service_name }}'
     username: SYSTEM
     actions:
       - path: 'C:\ProgramData\scoop\apps\git\current\bin\bash.exe'
-        arguments: '-c "./build.sh > logs/build.log 2>&1"'
+        arguments: |
+          -c "'{{ beacon_node_update_build_script if beacon_node_update_build == true else beacon_node_update_download_script }}' > 'logs\update.log' 2>&1"
         working_directory: '{{ beacon_node_service_path }}'
     triggers:
-      - type: '{{ beacon_node_build_frequency }}'
-        start_boundary: '{{ ansible_date_time.date }}T{{ beacon_node_build_start_time }}'
+      - type: '{{ beacon_node_update_frequency }}'
+        start_boundary: '{{ ansible_date_time.date }}T{{ beacon_node_update_start_time }}'
     state: 'present'
     enabled: true
     multiple_instances: 2 # Wait for running task
@@ -60,12 +64,12 @@
 
 # Start it right away so we have the binary to run.
 - name: Start the new scheduled task
-  win_shell: 'Start-ScheduledTask -TaskName {{ beacon_node_build_service_name }}'
+  win_shell: 'Start-ScheduledTask -TaskName {{ beacon_node_update_service_name }}'
   when: not beacon_node_exe.stat.exists
 
 - name: Wait for the node build to finish (SLOW)
   win_scheduled_task_stat:
-    name: '{{ beacon_node_build_service_name }}'
+    name: '{{ beacon_node_update_service_name }}'
   when: not beacon_node_exe.stat.exists
   register: task_stat
   until: |
