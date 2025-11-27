@@ -1,7 +1,7 @@
 ---
 - name: Install MinGW-Nuwen and CMake to compile Nim
   win_shell: |
-    scoop install --no-update-scoop --global mingw-nuwen gcc cmake
+    scoop install --no-update-scoop --global mingw-nuwen gcc cmake git-lfs
 
 - name: Add GCC to the system wide PATH
   win_path:
