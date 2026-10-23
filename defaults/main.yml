@@ -106,3 +106,7 @@ beacon_node_consul_failures_before_critical: 2
 beacon_node_exec_layer_urls: []
 #beacon_node_exec_layer_jwt_secret: ~
 beacon_node_exec_layer_jwt_secret_path: '{{ beacon_node_service_path }}/jwt.hex'
+
+# Builder for profit-optimized execution payloads.
+beacon_node_payload_builder_enabled: false
+beacon_node_payload_builder_urls: []

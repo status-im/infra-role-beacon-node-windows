@@ -53,7 +53,10 @@ insecure-netkey-password = true
 
 ### Payload Builder
 payload-builder = {{ beacon_node_payload_builder_enabled | to_json | to_json }}
-payload-builder-url = {{ beacon_node_payload_builder_url | mandatory | to_json }}
+payload-builder-url = [
+{% for url in beacon_node_payload_builder_urls %}
+  {{ url | to_json }},
+{% endfor %}]
 {% endif %}
 
 ### REST API
